@@ -58,7 +58,6 @@ dependencies:
 - pandas
 - jupyter
 - pytest
-- nb_conda_kernels
 ```
 
 This file will be used to create a new environment named `pandas_cub`. It will install Python 3.6 in a completely separate directory in your file system along with pandas, jupyter, and pytest. There will actually be many more packages installed as those libraries have dependencies of their own. Visit [this page][2] for more information on conda environments.
@@ -130,9 +129,23 @@ Within the `pandas_cub` environment, launch a Jupyter Notebook with the command 
 
 ### Changing the environment within Jupyter
 
-Although we launched our Jupyter Notebook within the `pandas_cub` environment, our code will be executed within the base environment at first.
+Although we launched our Jupyter Notebook within the `pandas_cub` environment, our code may not be executed within the `pandas_cub` environment at first. If that sounds bizarre and non-intuitive then you have reached the same conclusion as me. It is possible to run any python executable from a Jupyter Notebook regardless of the environment that it was launched from.
 
-If you run the first cell of the notebook (shown below) you can verify the location in your file system where Python is getting executed. This is not where the `pandas_cub` environment was installed.
+If you run the first cell of the notebook (shown below) you can verify the location in your file system where Python is getting executed.
+
+**One of two possibilities can happen**
+
+If the value outputted from `sys.executable` is in the pandas_cub environment, it will have a path that ends like this:
+
+`anaconda3/envs/pandas_cub/bin/python`
+
+If this is your output, you can skip the rest of this step.
+
+If the value outputted from `sys.executable` ends with the following:
+
+`anaconda3/bin/python`
+
+then you are actually not executing python from the `pandas_cub` environment. You need to complete the rest of the step.
 
 ![][17]
 
@@ -650,6 +663,10 @@ There are several non-aggregation methods that function similarly. All of the fo
  Notice that some of these non-aggregating methods have extra keyword arguments. These are passed to `_non_agg` and collected with `**kwargs`. Make sure to pass them to the numpy function as well.
 
  There is a different test for each method in the `TestNonAgg` class.
+
+#### Update after videos
+
+If you are watching my videos for the course, I updated the pandas_cub_final init file to contain a better solution. The `round` method should ignore boolean columns. The original solution applied had each non-aggregation method work on boolean, integer, and float columns.
 
 ### 32. `diff` method
 
